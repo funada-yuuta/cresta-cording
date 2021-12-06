@@ -1,0 +1,22 @@
+<ifModule mime_module>
+  AddType application/x-font-woff .woff
+</ifModule>
+
+<ifModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 1 month"
+  ExpiresByType application/x-font-woff "access plus 1 year"
+  <FilesMatch "jquery-3.6.0.min.js$">
+    ExpiresDefault "access plus 1 year"
+  </FilesMatch>
+</ifModule>
+
+<ifModule mod_rewrite.c>
+  RewriteEngine on
+
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  RewriteCond %{THE_REQUEST} ^.*/index.(html|php)
+  RewriteRule ^(.*)index.(html|php)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</ifModule>
